@@ -64,5 +64,87 @@ https://developer.hashicorp.com/vault/tutorials/auth-methods/oidc-auth
 The OIDC auth method can redirect a user's browser to a configured identity provider, complete a login, and then re-route the user back to Vault's UI with a newly-created Vault token.
 
 
+### Resources Path
 
+All resources in HashiCorp vault is defined by a path:
+
+1. auth/ 
+
+Define authentication methods. These are plugins that verify who you are and issue Vault tokens.
+
+```
+# Allow login via Kubernetes auth
+path "auth/kubernetes/login" {
+  capabilities = ["create"]
+}
+```
+
+
+2. sys/ 
+
+Platform admin manages mounts and policies.
+```
+# Manage secret engine mounts
+path "sys/mounts/*" {
+  capabilities = ["create", "read", "update", "delete"]
+}
+
+# Manage ACL policies
+path "sys/policies/acl/*" {
+  capabilities = ["create", "read", "update", "delete"]
+}
+
+# Read Vault health status
+path "sys/health" {
+  capabilities = ["read"]
+}
+```
+
+3. secret/ 
+
+App can read its own secrets only.
+
+```
+# Read-only access to App A secrets
+path "secret/data/app-a/*" {
+  capabilities = ["read"]
+}
+
+# Allow listing metadata (KV v2)
+path "secret/metadata/app-a/*" {
+  capabilities = ["list"]
+}
+```
+
+
+4. identity/
+
+Identity admin manages entities and groups.
+
+```
+# Manage entities
+path "identity/entity/*" {
+  capabilities = ["create", "read", "update", "delete", "list"]
+}
+
+# Manage groups
+path "identity/group/*" {
+  capabilities = ["create", "read", "update", "delete", "list"]
+}
+
+# Lookup identity info
+path "identity/lookup/*" {
+  capabilities = ["read"]
+}
+```
+
+### Authentication Flow
+
+1. Application authenticates with Vault using AppRole (Role ID + Secret ID)
+  - Auth method
+2. Vault returns a client token with TTL
+  - Policy -> applies to a identity
+3. Application uses token to access secrets
+  - Secret engine
+4. Token must be renewed before expiration
 
