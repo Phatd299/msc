@@ -1,6 +1,6 @@
 ## Vault Architecture
 
-![alt text](architecture.png)
+![alt text](images/architecture.png)
 
 ### Overview
 
@@ -25,7 +25,7 @@ When a Vault server is started, it begins in a **sealed** state. Before any oper
 
 Unsealed via an Unseal key. This key will be used to decrypt the (1) root key. This (1) root key will be used to decrypt the (2) Encryption key.
 
-![alt text](seal_unseal.png)
+![alt text](images/seal_unseal.png)
 
 The (2) Encryption key is the one that decrypt data from Storage Backend, and enters the **unsealed** state.
 

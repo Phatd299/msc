@@ -1,2 +1,0 @@
-## AppRole Auth method
-

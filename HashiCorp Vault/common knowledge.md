@@ -18,16 +18,16 @@ Storage Backend is a block-storage for Vault software to write encrypted data in
 There are 2 options in HashiCorp vault:
 
 1. Using seperate product - Consul, EBS, DynamoDB,...
-![alt text](storage_example.png)
+![alt text](images/storage_example.png)
 
 2. Using built-in feature within Vault binary - called as Raft (need additional configuration)
-![alt text](raft_example.png)
+![alt text](images/raft_example.png)
 
 ### Deploy HashiCorp Vault
 
 For HA purpose, on Prod, a Vault cluster should be deployed as below:
 
-![alt text](EC2_deployment.png)
+![alt text](images/EC2_deployment.png)
 
 Reference:
 https://github.com/hashicorp/terraform-aws-vault-enterprise-hvd
@@ -57,7 +57,7 @@ When Terraform CLI run "terraform apply", the CLI talks to Vault Provider to mou
 
 ### Identity Provider
 
-![alt text](Identity_provider.png)
+![alt text](images/Identity_provider.png)
 
 https://developer.hashicorp.com/vault/tutorials/auth-methods/oidc-auth
 
@@ -148,3 +148,15 @@ path "identity/lookup/*" {
   - Secret engine
 4. Token must be renewed before expiration
 
+
+### Policy
+
+1. Token-based policy
+
+Defined by authN method. Vault operator can create the policy under path "auth/...".
+
+This policy stick to the token granted by authN method.
+
+2. Identity-based policy
+
+Defined by identity module (regardess of authenN method). For example: 1 entity can have multiple authN methods (like userpass and Azure,...). Vault operator can create policy under path "identity/...".
