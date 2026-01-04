@@ -4,97 +4,60 @@
 
     At the minimum requirement, this includes:
     - Vault (EPV)
-    - PSM
-    - CPM
+    - PSM server
+    - CPM server
     - PVWA
 
-2. CyberArk PAM - SaaS
+2. CyberArk PAM - Privilege Cloud
 
     This At the minimum requirement, this includes:
     - CyberArk Privilege Cloud tenant
-        1. Web portal (PVWA-equivalent)
-        2. Cloud Vault
-    - PAM Connector hosts (customer-hosted)
+    - PAM Connector hosts (customer-hosted), including: Identity Connector; PSM/CPM Connector
 
 
-## CyberArk User Hierarchy
+### Identity Setup:
 
-1. Authentication Profile
+1. Create a `Authentication Profile`
+    
+    This define how to authenticate with CyberArk
 
-    - “How identity is proven”
-    - Defines:
-        - Authentication method
-        - Source of Identity
+    ![alt text](images/auth_profile.png)
 
-2. User
+2. Create `Role` and `Member`
 
-    - “Who is requesting access”
-    - Defines:
-        - Individual identity (user)
+    CyberArk manage users via `Role` and under each `Role`, set of `Member` can be added in    
 
-3. Role
+3. Create and confgiure `Policy`
+    
+    This includes refering to `Authentication Profile`
+    Also assign `Role` under specific `Policy`
 
-    - “What permissions you are assigned”
-    - Defines:
-        - A bundle of permissions
-        - Mapped to business functions (Admin, Operator, Auditor)
-    - Roles are linked to:
-        - Safes
-        - Accounts
-        - Platforms
-        - Workflows
-   
-4. Policy
-
-    - “How access behaves and under what conditions”
-    - Defines:
-        - Conditions
-        - Controls
-        - Enforcement
-    Includes:
-        - Approval requirements
-        - MFA enforcement
-        - Session recording
-        - Password rotation rules
-        - Command restrictions
-
-### When Identity Setup:
-1. Create a Authentication Profile
-2. Create a Policy that map to Role(s)
-3. Authentication Profile is applies to the Policy
-4. Users are added to Role
+    ![alt text](images/policy_created.png)
 
 
-## CyberArk roles
+### Safe and account in CyberArk
 
-At minimum, CyberArk should have 3 roles:
-
-1. PAM Adminstrator
-
-    - Create Safes
-    - Define Platforms
-    - Configure CPM / PSM / PSMP
-    - Manage policies
-    - Vault-level administration
-
-2. Safe Owner
-
-    - Manage Safe members
-    - (Optionally) onboard application-owned accounts
-    - View audits for their Safe
-
-3. End-user - Privilege user
-
-    - Launch sessions via PSM / PSMP
-    - View their own session history
-
-## CyberArk priviledge account provision
-
+```
+Member
+ |
+ |
+ v
 Safe
+ └─ Account
+     ├─ Address
+     ├─ Username
+     ├─ Password
+     └─ Platform
+          ├─ Password rules
+          ├─ CPM logic
+          ├─ PSM connection
+          └─ Required properties
+```
+Member or End user is added to a `Safe`.
 
-Platform
+`Account` is stored in a `Safe`. Each `Account` is associated with a `Platform`.
 
-Account
-
+`Platform` is a set of rules that tell CyberArk how to manage the `Account`. 
+![alt text](images/platform_created.png)
 
 

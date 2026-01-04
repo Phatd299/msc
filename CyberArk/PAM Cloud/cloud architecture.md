@@ -1,6 +1,14 @@
 # Privilege Cloud architecture
 
-![alt text](image-1.png)
+![alt text](../images/cloud_architecture.png)
+
+## Component
+
+1. Identity Adminstrator
+
+2. Connector Management
+
+3. Privilege Cloud
 
 
 Reference:
